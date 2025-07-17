@@ -10,6 +10,25 @@ setwd("3_data_analysis/5_different_metabolites")
 
 library(tidymass)
 
+
+####PCA use all metabolite variables
+pca_object <-
+  metabolite_data %>%
+  scale_data(center = TRUE) %>%
+  run_pca()
+
+plot <-
+  metabolite_data %>%
+  pca_score_plot(pca_object = pca_object, color_by = "group") +
+  scale_color_manual(values = ra_dm_color) +
+  scale_fill_manual(values = ra_dm_color)
+plot
+ggsave(plot,
+       filename = "pca_plot_all_metabolite.pdf",
+       width = 6,
+       height = 5)
+
+
 ###biomarker discovery
 dm_sample_id <-
   metabolite_data %>%
@@ -57,3 +76,29 @@ ggsave(volcano_plot,
 write.csv(metabolite_data@variable_info,
           file = "variable_info.csv",
           row.names = FALSE)
+
+
+
+
+
+
+
+####PCA use marker
+pca_object <-
+  metabolite_data %>%
+  activate_mass_dataset(what = "variable_info") %>%
+  dplyr::filter(p_value_adjust < 0.05) %>%
+  scale_data(center = TRUE) %>%
+  run_pca()
+
+plot <-
+  metabolite_data %>%
+  pca_score_plot(pca_object = pca_object, color_by = "group") +
+  scale_color_manual(values = ra_dm_color) +
+  scale_fill_manual(values = ra_dm_color)
+plot
+
+ggsave(plot,
+       filename = "pca_plot_metabolite_biomarker.pdf",
+       width = 6,
+       height = 5)

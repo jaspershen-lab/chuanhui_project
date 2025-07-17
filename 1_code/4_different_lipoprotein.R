@@ -10,6 +10,23 @@ setwd("3_data_analysis/4_different_lipoprotein")
 
 library(tidymass)
 
+####PCA use all lipoprotein variables
+pca_object <-
+lipoprotein_data %>% 
+  scale_data(center = TRUE) %>% 
+  run_pca()
+
+plot <-
+lipoprotein_data %>% 
+  pca_score_plot(pca_object = pca_object, color_by = "group") +
+  scale_color_manual(values = ra_dm_color) +
+  scale_fill_manual(values = ra_dm_color)
+
+ggsave(plot,
+       filename = "pca_plot_all_lipoprotein.pdf",
+       width = 6,
+       height = 5)
+
 ###biomarker discovery
 dm_sample_id <-
   lipoprotein_data %>%
@@ -39,7 +56,6 @@ lipoprotein_data <-
     p_adjust_method = "fdr"
   )
 
-
 volcano_plot <-
   lipoprotein_data %>%
   volcano_plot(
@@ -59,3 +75,24 @@ ggsave(volcano_plot,
 write.csv(lipoprotein_data@variable_info,
           file = "variable_info.csv",
           row.names = FALSE)
+
+
+####PCA use marker
+pca_object <-
+  lipoprotein_data %>% 
+  activate_mass_dataset(what = "variable_info") %>%
+  dplyr::filter(p_value_adjust < 0.05) %>% 
+  scale_data(center = TRUE) %>% 
+  run_pca()
+
+plot <-
+  lipoprotein_data %>% 
+  pca_score_plot(pca_object = pca_object, color_by = "group") +
+  scale_color_manual(values = ra_dm_color) +
+  scale_fill_manual(values = ra_dm_color)
+plot
+
+ggsave(plot,
+       filename = "pca_plot_lipoprotein_biomarker.pdf",
+       width = 6,
+       height = 5)
