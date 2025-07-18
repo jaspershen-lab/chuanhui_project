@@ -21,7 +21,7 @@ plot <-
   pca_score_plot(pca_object = pca_object, color_by = "group") +
   scale_color_manual(values = ra_dm_color) +
   scale_fill_manual(values = ra_dm_color)
-
+plot
 ggsave(plot,
        filename = "pca_plot_all_lipoprotein.pdf",
        width = 6,
@@ -66,7 +66,7 @@ volcano_plot <-
     add_text = TRUE,
     text_from = "full_name"
   )
-
+volcano_plot
 ggsave(volcano_plot,
        filename = "volcano_plot.pdf",
        width = 9,
@@ -176,3 +176,4 @@ ggsave(plot,
        filename = "heatmap_lipoprotein_biomarker.pdf",
        width = 10,
        height = 6)
+s

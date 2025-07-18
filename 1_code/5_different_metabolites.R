@@ -78,11 +78,6 @@ write.csv(metabolite_data@variable_info,
           row.names = FALSE)
 
 
-
-
-
-
-
 ####PCA use marker
 pca_object <-
   metabolite_data %>%
@@ -180,3 +175,4 @@ ggsave(plot,
        filename = "heatmap_metabolite_biomarker.pdf",
        width = 10,
        height = 6)
+

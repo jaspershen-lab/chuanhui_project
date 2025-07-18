@@ -11,7 +11,6 @@ setwd("3_data_analysis/3_phenotype_data_analysis")
 sample_info <-
   lipoprotein_data@sample_info
 
-
 library(gghalves)
 library(ggsignif)
 
@@ -43,7 +42,7 @@ plot <-
   scale_fill_manual(values = ra_dm_color) +
   theme_bw() +
   labs(x = "", y = "Age")
-
+plot
 ggsave(plot,
        filename = "age_comparison.pdf",
        width = 4,
@@ -87,12 +86,6 @@ ggsave(plot,
        height = 4)
 
 
-
-
-
-
-
-
 plot <-
   sample_info %>%
   dplyr::mutate(disease = factor(disease, levels = c("RA", "DM"))) %>%
@@ -128,13 +121,6 @@ ggsave(plot,
        height = 4)
 
 
-
-
-
-
-
-
-
 plot <-
   sample_info %>%
   dplyr::mutate(disease = factor(disease, levels = c("RA", "DM"))) %>%
@@ -147,9 +133,6 @@ ggsave(plot,
        filename = "sex_comparison.pdf",
        width = 4,
        height = 4)
-
-
-
 
 plot <-
   sample_info %>%
@@ -179,7 +162,6 @@ ggsave(plot,
        width = 4,
        height = 4)
 
-
 plot <-
   sample_info %>%
   dplyr::mutate(disease = factor(disease, levels = c("RA", "DM"))) %>%
@@ -192,3 +174,4 @@ ggsave(plot,
        filename = "hld_comparison.pdf",
        width = 4,
        height = 4)
+

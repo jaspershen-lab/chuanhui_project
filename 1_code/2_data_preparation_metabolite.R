@@ -16,11 +16,8 @@ dim(phenotype_data)
 
 phenotype_data <-
   phenotype_data %>%
-  dplyr::rename(sample_id = "record_id") %>% 
-  dplyr::mutate(disease = case_when(
-    disease == "1" ~ "RA",
-    disease == "2" ~ "DM",
-  ))
+  dplyr::rename(sample_id = "record_id") %>%
+  dplyr::mutate(disease = case_when(disease == "1" ~ "RA", disease == "2" ~ "DM", ))
 
 data <-
   convert_nmr_metabolite_data(data)
@@ -44,6 +41,12 @@ sample_info <-
 
 library(tidymass)
 
+sample_info$sample_id <-
+  stringr::str_replace_all(sample_info$sample_id, " \\(poor quality\\)", "")
+
+colnames(expression_data) <-
+  sample_info$sample_id
+
 metabolite_data <-
   create_mass_dataset(
     expression_data = expression_data,
@@ -51,6 +54,25 @@ metabolite_data <-
     sample_info = sample_info
   )
 
-save(metabolite_data, 
-     file = "metabolite_data.rda", compress = "xz")
+###remove some cases with IHD (CVD)
+metabolite_data <-
+  metabolite_data %>%
+  activate_mass_dataset(what = "sample_info") %>%
+  dplyr::filter(
+    !internal_id %in% c(
+      "A05",
+      "A06",
+      "A11",
+      "A12",
+      "A31",
+      "A32",
+      "A33",
+      "A34",
+      "A45",
+      "A46",
+      "A51",
+      "A52"
+    )
+  )
 
+save(metabolite_data, file = "metabolite_data.rda", compress = "xz")

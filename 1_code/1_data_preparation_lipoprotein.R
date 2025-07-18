@@ -50,12 +50,26 @@ sample_info <-
 
 library(tidymass)
 
+
+sample_info$sample_id <-
+  stringr::str_replace_all(sample_info$sample_id, " \\(poor quality\\)", "")
+
+colnames(expression_data) <-
+  sample_info$sample_id
+
 lipoprotein_data <-
   create_mass_dataset(
     expression_data = expression_data,
     variable_info = variable_info,
     sample_info = sample_info
   )
+
+###remove some cases with IHD (CVD)
+lipoprotein_data <-
+lipoprotein_data %>% 
+  activate_mass_dataset(what = "sample_info") %>% 
+  dplyr::filter(!internal_id %in% c("A05", "A06", "A11", "A12", "A31", "A32", "A33", "A34", "A45", "A46", "A51", "A52"))
+
 
 save(lipoprotein_data, 
      file = "lipoprotein_data.rda", compress = "xz")
