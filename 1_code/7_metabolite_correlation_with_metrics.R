@@ -44,35 +44,35 @@ metabolite_data_ra <-
 #         metabolite_data_dm@sample_info$pwv,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_FMD <-
 #       cor.test(
 #         as.numeric(metabolite_data_dm@expression_data[i, ]),
 #         metabolite_data_dm@sample_info$FMD,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_avgcimt <-
 #       cor.test(
 #         as.numeric(metabolite_data_dm@expression_data[i, ]),
 #         metabolite_data_dm@sample_info$avgcimt,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_maxcimt <-
 #       cor.test(
 #         as.numeric(metabolite_data_dm@expression_data[i, ]),
 #         metabolite_data_dm@sample_info$maxcimt,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_cavi_avg <-
 #       cor.test(
 #         as.numeric(metabolite_data_dm@expression_data[i, ]),
 #         as.numeric(metabolite_data_dm@sample_info$cavi_avg),
 #         method = "spearman"
 #       )
-# 
+#
 #     rbind(
 #       data.frame(
 #         variable_id = metabolite_data_dm@variable_info$variable_id[i],
@@ -108,12 +108,12 @@ metabolite_data_ra <-
 #   }) %>%
 #   do.call(rbind, .) %>%
 #   as.data.frame()
-# 
+#
 # metabolite_metrics_correlation_dm$cor[is.na(metabolite_metrics_correlation_dm$cor)] <- 0
 # metabolite_metrics_correlation_dm$p_value[is.na(metabolite_metrics_correlation_dm$p_value)] <- 1
-# 
+#
 # library(plyr)
-# 
+#
 # metabolite_metrics_correlation_dm <-
 #   metabolite_metrics_correlation_dm %>%
 #   plyr::dlply(.(metrics), function(x) {
@@ -122,7 +122,7 @@ metabolite_data_ra <-
 #   }) %>%
 #   do.call(rbind, .) %>%
 #   as.data.frame()
-# 
+#
 # metabolite_metrics_correlation_ra <-
 #   1:nrow(metabolite_data_ra@variable_info) %>%
 #   purrr::map(function(i) {
@@ -133,35 +133,35 @@ metabolite_data_ra <-
 #         metabolite_data_ra@sample_info$pwv,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_FMD <-
 #       cor.test(
 #         as.numeric(metabolite_data_ra@expression_data[i, ]),
 #         metabolite_data_ra@sample_info$FMD,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_avgcimt <-
 #       cor.test(
 #         as.numeric(metabolite_data_ra@expression_data[i, ]),
 #         metabolite_data_ra@sample_info$avgcimt,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_maxcimt <-
 #       cor.test(
 #         as.numeric(metabolite_data_ra@expression_data[i, ]),
 #         metabolite_data_ra@sample_info$maxcimt,
 #         method = "spearman"
 #       )
-# 
+#
 #     test_cavi_avg <-
 #       cor.test(
 #         as.numeric(metabolite_data_ra@expression_data[i, ]),
 #         as.numeric(metabolite_data_ra@sample_info$cavi_avg),
 #         method = "spearman"
 #       )
-# 
+#
 #     rbind(
 #       data.frame(
 #         variable_id = metabolite_data_ra@variable_info$variable_id[i],
@@ -197,10 +197,10 @@ metabolite_data_ra <-
 #   }) %>%
 #   do.call(rbind, .) %>%
 #   as.data.frame()
-# 
+#
 # metabolite_metrics_correlation_ra$cor[is.na(metabolite_metrics_correlation_ra$cor)] <- 0
 # metabolite_metrics_correlation_ra$p_value[is.na(metabolite_metrics_correlation_ra$p_value)] <- 1
-# 
+#
 # library(plyr)
 # metabolite_metrics_correlation_ra <-
 #   metabolite_metrics_correlation_ra %>%
@@ -210,13 +210,13 @@ metabolite_data_ra <-
 #   }) %>%
 #   do.call(rbind, .) %>%
 #   as.data.frame()
-# 
+#
 # sum(metabolite_metrics_correlation_dm$p_value_adjust < 0.05)
 # sum(metabolite_metrics_correlation_ra$p_value_adjust < 0.05)
-# 
+#
 # max(metabolite_metrics_correlation_dm$cor)
 # max(metabolite_metrics_correlation_ra$cor)
-# 
+#
 # save(metabolite_metrics_correlation_dm,
 #      file = "metabolite_metrics_correlation_dm.rda",
 #      compress = "xz")
@@ -247,7 +247,7 @@ for (i in all_index) {
     metabolite_data_dm@sample_info %>%
     dplyr::select(metabolite_metrics_correlation_dm[i, ]$metrics)
   value2 <-
-    value2[, 1] %>% 
+    value2[, 1] %>%
     as.numeric()
   
   plot_dm <-
@@ -256,7 +256,7 @@ for (i in all_index) {
     geom_point(size = 3) +
     geom_smooth(method = "lm", color = "red") +
     labs(x = variable_info$variable_id[match(metabolite_metrics_correlation_dm[i, ]$variable_id,
-                                           variable_info$variable_id)],
+                                             variable_info$variable_id)],
          y = metabolite_metrics_correlation_dm[i, ]$metrics,
          title = "DM") +
     theme_bw() +
@@ -285,7 +285,7 @@ for (i in all_index) {
     metabolite_data_ra@sample_info %>%
     dplyr::select(metabolite_metrics_correlation_ra[i, ]$metrics)
   value2 <-
-    value2[, 1] %>% 
+    value2[, 1] %>%
     as.numeric()
   
   plot_ra <-
@@ -294,7 +294,7 @@ for (i in all_index) {
     geom_point(size = 3) +
     geom_smooth(method = "lm", color = "red") +
     labs(x = variable_info$variable_id[match(metabolite_metrics_correlation_ra[i, ]$variable_id,
-                                           variable_info$variable_id)],
+                                             variable_info$variable_id)],
          y = metabolite_metrics_correlation_ra[i, ]$metrics,
          title = "RA") +
     theme_bw() +
@@ -327,15 +327,20 @@ for (i in all_index) {
         " vs. ",
         metabolite_metrics_correlation_dm[i, ]$metrics
       )
-    )  
+    )
   
-  ggsave(plot,
-         filename = paste0("comparison_plot/", variable_info$variable_id[match(metabolite_metrics_correlation_dm[i, ]$variable_id,
-                                                                               variable_info$variable_id)],
-                           "_",
-                           metabolite_metrics_correlation_dm[i, ]$metrics,
-                           ".pdf"),
-         width = 8,
-         height = 4)
+  ggsave(
+    plot,
+    filename = paste0(
+      "comparison_plot/",
+      variable_info$variable_id[match(metabolite_metrics_correlation_dm[i, ]$variable_id,
+                                      variable_info$variable_id)],
+      "_",
+      metabolite_metrics_correlation_dm[i, ]$metrics,
+      ".pdf"
+    ),
+    width = 8,
+    height = 4
+  )
   
 }
