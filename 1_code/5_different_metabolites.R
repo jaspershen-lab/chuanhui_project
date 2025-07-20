@@ -73,9 +73,18 @@ ggsave(volcano_plot,
        width = 9,
        height = 8)
 
-write.csv(metabolite_data@variable_info,
-          file = "variable_info.csv",
-          row.names = FALSE)
+library(openxlsx)
+
+openxlsx::write.xlsx(metabolite_data@variable_info,
+                     file = "variable_info.xlsx",
+                     asTable = TRUE)
+
+openxlsx::write.xlsx(
+  metabolite_data@variable_info %>% dplyr::filter(p_value < 0.05),
+  file = "metabolite_markers.xlsx",
+  asTable = TRUE
+)
+
 
 
 ####PCA use marker
@@ -175,4 +184,3 @@ ggsave(plot,
        filename = "heatmap_metabolite_biomarker.pdf",
        width = 10,
        height = 6)
-
