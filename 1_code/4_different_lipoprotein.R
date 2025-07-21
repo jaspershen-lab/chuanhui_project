@@ -56,6 +56,10 @@ lipoprotein_data <-
     p_adjust_method = "fdr"
   )
 
+save(lipoprotein_data,
+     file = "lipoprotein_data.rda",
+     compress = "xz")
+
 volcano_plot <-
   lipoprotein_data %>%
   volcano_plot(

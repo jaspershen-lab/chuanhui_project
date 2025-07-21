@@ -57,6 +57,10 @@ metabolite_data <-
     p_adjust_method = "fdr"
   )
 
+save(metabolite_data,
+     file = "metabolite_data.rda",
+     compress = "xz")
+
 volcano_plot <-
   metabolite_data %>%
   volcano_plot(
