@@ -50,7 +50,6 @@ correlation <-
   dplyr::mutate(edge_id = paste(sort(c(from, to)), collapse = "_")) %>%
   dplyr::distinct(edge_id, .keep_all = TRUE)
 
-
 p <-
   cor_data$p %>%
   as.data.frame() %>%
