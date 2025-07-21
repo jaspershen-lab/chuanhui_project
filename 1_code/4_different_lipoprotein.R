@@ -71,6 +71,17 @@ volcano_plot <-
     text_from = "full_name"
   )
 volcano_plot
+
+lipoprotein_data %>% 
+  activate_mass_dataset(what = "variable_info") %>% 
+  dplyr::filter(p_value_adjust < 0.05 & fc > 1) %>%
+  dim()
+
+lipoprotein_data %>% 
+  activate_mass_dataset(what = "variable_info") %>% 
+  dplyr::filter(p_value_adjust < 0.05 & fc < 1) %>%
+  dim()
+
 ggsave(volcano_plot,
        filename = "volcano_plot.pdf",
        width = 9,

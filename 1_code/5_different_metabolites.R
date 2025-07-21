@@ -72,6 +72,17 @@ volcano_plot <-
     text_from = "variable_id"
   )
 volcano_plot
+
+metabolite_data %>% 
+  activate_mass_dataset(what = "variable_info") %>% 
+  dplyr::filter(p_value_adjust < 0.05 & fc > 1) %>%
+  dim()
+
+metabolite_data %>% 
+  activate_mass_dataset(what = "variable_info") %>% 
+  dplyr::filter(p_value_adjust < 0.05 & fc < 1) %>%
+  dim()
+
 ggsave(volcano_plot,
        filename = "volcano_plot.pdf",
        width = 9,
