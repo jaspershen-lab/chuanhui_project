@@ -83,6 +83,11 @@ metabolite_data %>%
   dplyr::filter(p_value_adjust < 0.05 & fc < 1) %>%
   dim()
 
+metabolite_data %>% 
+  activate_mass_dataset(what = "variable_info") %>%
+  dplyr::filter(variable_id == "Glucose") %>% 
+  extract_variable_info()
+
 ggsave(volcano_plot,
        filename = "volcano_plot.pdf",
        width = 9,

@@ -5,8 +5,8 @@ source('1_code/100_tools.R')
 
 load("3_data_analysis/1_data_preparation_lipoprotein/lipoprotein_data.rda")
 
-dir.create("3_data_analysis/4_different_lipoprotein", showWarnings = FALSE)
-setwd("3_data_analysis/4_different_lipoprotein")
+dir.create("3_data_analysis/6_lipoprotein_correlation_with_metrics", showWarnings = FALSE)
+setwd("3_data_analysis/6_lipoprotein_correlation_with_metrics")
 
 library(tidymass)
 
@@ -209,9 +209,28 @@ lipoprotein_data_ra <-
 #
 # max(lipoprotein_metrics_correlation_dm$cor)
 # max(lipoprotein_metrics_correlation_ra$cor)
-#
+# 
+# library(openxlsx)
+# 
+# openxlsx::write.xlsx(
+#   lipoprotein_metrics_correlation_dm %>% dplyr::filter(p_value < 0.05) %>% 
+#     dplyr::left_join(variable_info[,c("variable_id", "full_name")],
+#                      by = "variable_id"),
+#   file = "lipoprotein_metrics_correlation_dm.xlsx",
+#   rowNames = FALSE
+# )
+# 
+# openxlsx::write.xlsx(
+#   lipoprotein_metrics_correlation_ra %>% dplyr::filter(p_value < 0.05) %>% 
+#     dplyr::left_join(variable_info[,c("variable_id", "full_name")],
+#                      by = "variable_id"),
+#   file = "lipoprotein_metrics_correlation_ra.xlsx",
+#   rowNames = FALSE)
+# 
+# 
 # save(lipoprotein_metrics_correlation_dm, file = "lipoprotein_metrics_correlation_dm.rda", compress = "xz")
 # save(lipoprotein_metrics_correlation_ra, file = "lipoprotein_metrics_correlation_ra.rda", compress = "xz")
+
 
 load("lipoprotein_metrics_correlation_dm.rda")
 load("lipoprotein_metrics_correlation_ra.rda")
