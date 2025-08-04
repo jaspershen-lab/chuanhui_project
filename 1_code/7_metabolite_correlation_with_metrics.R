@@ -5,7 +5,8 @@ source('1_code/100_tools.R')
 
 load("3_data_analysis/2_data_preparation_metabolites/metabolite_data.rda")
 
-dir.create("3_data_analysis/7_metabolite_correlation_with_metrics", showWarnings = FALSE)
+dir.create("3_data_analysis/7_metabolite_correlation_with_metrics",
+           showWarnings = FALSE)
 setwd("3_data_analysis/7_metabolite_correlation_with_metrics")
 
 library(tidymass)
@@ -217,20 +218,20 @@ metabolite_data_ra <-
 # max(metabolite_metrics_correlation_dm$cor)
 # max(metabolite_metrics_correlation_ra$cor)
 #
-# 
+#
 # library(openxlsx)
-# 
+#
 # openxlsx::write.xlsx(
 #   metabolite_metrics_correlation_dm,
 #   file = "metabolite_metrics_correlation_dm.xlsx",
 #   rowNames = FALSE
 # )
-# 
+#
 # openxlsx::write.xlsx(
 #   metabolite_metrics_correlation_ra,
 #   file = "metabolite_metrics_correlation_ra.xlsx",
 #   rowNames = FALSE)
-# 
+#
 # save(metabolite_metrics_correlation_dm,
 #      file = "metabolite_metrics_correlation_dm.rda",
 #      compress = "xz")
