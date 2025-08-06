@@ -13,6 +13,7 @@ library(tidymass)
 ####PCA use all metabolite variables
 pca_object <-
   nmr_data %>%
+  log(10) %>% 
   scale_data(center = TRUE) %>%
   run_pca()
 
@@ -137,6 +138,7 @@ expression_data <-
   nmr_data %>%
   activate_mass_dataset(what = "variable_info") %>%
   dplyr::filter(p_value_adjust < 0.05) %>%
+  log(10) %>% 
   scale_data(center = TRUE) %>%
   extract_expression_data()
 
@@ -145,7 +147,6 @@ sample_info <-
   activate_mass_dataset(what = "variable_info") %>%
   dplyr::filter(p_value_adjust < 0.05) %>%
   extract_sample_info()
-
 
 variable_info <-
   nmr_data %>%
