@@ -32,204 +32,230 @@ lipoprotein_data_ra <-
   activate_mass_dataset(what = "sample_info") %>%
   dplyr::filter(disease == "RA")
 
-# lipoprotein_metrics_correlation_dm <-
-#   1:nrow(lipoprotein_data_dm@variable_info) %>%
-#   purrr::map(function(i) {
-#     cat(i, " ")
-#     test_pwv <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_dm@expression_data[i, ]),
-#         lipoprotein_data_dm@sample_info$pwv,
-#         method = "spearman"
-#       )
-#
-#     test_FMD <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_dm@expression_data[i, ]),
-#         lipoprotein_data_dm@sample_info$FMD,
-#         method = "spearman"
-#       )
-#
-#     test_avgcimt <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_dm@expression_data[i, ]),
-#         lipoprotein_data_dm@sample_info$avgcimt,
-#         method = "spearman"
-#       )
-#
-#     test_maxcimt <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_dm@expression_data[i, ]),
-#         lipoprotein_data_dm@sample_info$maxcimt,
-#         method = "spearman"
-#       )
-#
-#     test_cavi_avg <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_dm@expression_data[i, ]),
-#         as.numeric(lipoprotein_data_dm@sample_info$cavi_avg),
-#         method = "spearman"
-#       )
-#
-#     rbind(
-#       data.frame(
-#         variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
-#         metrics = "pwv",
-#         cor = test_pwv$estimate,
-#         p_value = test_pwv$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
-#         metrics = "FMD",
-#         cor = test_FMD$estimate,
-#         p_value = test_FMD$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
-#         metrics = "avgcimt",
-#         cor = test_avgcimt$estimate,
-#         p_value = test_avgcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
-#         metrics = "maxcimt",
-#         cor = test_maxcimt$estimate,
-#         p_value = test_maxcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
-#         metrics = "cavi_avg",
-#         cor = test_cavi_avg$estimate,
-#         p_value = test_cavi_avg$p.value
-#       )
-#     )
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# library(plyr)
-# lipoprotein_metrics_correlation_dm <-
-#   lipoprotein_metrics_correlation_dm %>%
-#   plyr::dlply(.(metrics), function(x) {
-#     x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
-#     x
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-#
-# lipoprotein_metrics_correlation_ra <-
-#   1:nrow(lipoprotein_data_ra@variable_info) %>%
-#   purrr::map(function(i) {
-#     cat(i, " ")
-#     test_pwv <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_ra@expression_data[i, ]),
-#         lipoprotein_data_ra@sample_info$pwv,
-#         method = "spearman"
-#       )
-#
-#     test_FMD <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_ra@expression_data[i, ]),
-#         lipoprotein_data_ra@sample_info$FMD,
-#         method = "spearman"
-#       )
-#
-#     test_avgcimt <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_ra@expression_data[i, ]),
-#         lipoprotein_data_ra@sample_info$avgcimt,
-#         method = "spearman"
-#       )
-#
-#     test_maxcimt <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_ra@expression_data[i, ]),
-#         lipoprotein_data_ra@sample_info$maxcimt,
-#         method = "spearman"
-#       )
-#
-#     test_cavi_avg <-
-#       cor.test(
-#         as.numeric(lipoprotein_data_ra@expression_data[i, ]),
-#         as.numeric(lipoprotein_data_ra@sample_info$cavi_avg),
-#         method = "spearman"
-#       )
-#
-#     rbind(
-#       data.frame(
-#         variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
-#         metrics = "pwv",
-#         cor = test_pwv$estimate,
-#         p_value = test_pwv$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
-#         metrics = "FMD",
-#         cor = test_FMD$estimate,
-#         p_value = test_FMD$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
-#         metrics = "avgcimt",
-#         cor = test_avgcimt$estimate,
-#         p_value = test_avgcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
-#         metrics = "maxcimt",
-#         cor = test_maxcimt$estimate,
-#         p_value = test_maxcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
-#         metrics = "cavi_avg",
-#         cor = test_cavi_avg$estimate,
-#         p_value = test_cavi_avg$p.value
-#       )
-#     )
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# library(plyr)
-# lipoprotein_metrics_correlation_ra <-
-#   lipoprotein_metrics_correlation_ra %>%
-#   plyr::dlply(.(metrics), function(x) {
-#     x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
-#     x
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# sum(lipoprotein_metrics_correlation_dm$p_value_adjust < 0.05)
-# sum(lipoprotein_metrics_correlation_ra$p_value_adjust < 0.05)
-#
-#
-# max(lipoprotein_metrics_correlation_dm$cor)
-# max(lipoprotein_metrics_correlation_ra$cor)
-# 
-# library(openxlsx)
-# 
-# openxlsx::write.xlsx(
-#   lipoprotein_metrics_correlation_dm %>% dplyr::filter(p_value < 0.05) %>% 
-#     dplyr::left_join(variable_info[,c("variable_id", "full_name")],
-#                      by = "variable_id"),
-#   file = "lipoprotein_metrics_correlation_dm.xlsx",
-#   rowNames = FALSE
-# )
-# 
-# openxlsx::write.xlsx(
-#   lipoprotein_metrics_correlation_ra %>% dplyr::filter(p_value < 0.05) %>% 
-#     dplyr::left_join(variable_info[,c("variable_id", "full_name")],
-#                      by = "variable_id"),
-#   file = "lipoprotein_metrics_correlation_ra.xlsx",
-#   rowNames = FALSE)
-# 
-# 
-# save(lipoprotein_metrics_correlation_dm, file = "lipoprotein_metrics_correlation_dm.rda", compress = "xz")
-# save(lipoprotein_metrics_correlation_ra, file = "lipoprotein_metrics_correlation_ra.rda", compress = "xz")
+lipoprotein_metrics_correlation_dm <-
+  1:nrow(lipoprotein_data_dm@variable_info) %>%
+  purrr::map(function(i) {
+    cat(i, " ")
+    test_pwv <-
+      cor.test(
+        as.numeric(lipoprotein_data_dm@expression_data[i, ]),
+        lipoprotein_data_dm@sample_info$pwv,
+        method = "spearman"
+      )
+
+    test_FMD <-
+      cor.test(
+        as.numeric(lipoprotein_data_dm@expression_data[i, ]),
+        lipoprotein_data_dm@sample_info$FMD,
+        method = "spearman"
+      )
+
+    test_avgcimt <-
+      cor.test(
+        as.numeric(lipoprotein_data_dm@expression_data[i, ]),
+        lipoprotein_data_dm@sample_info$avgcimt,
+        method = "spearman"
+      )
+
+    test_maxcimt <-
+      cor.test(
+        as.numeric(lipoprotein_data_dm@expression_data[i, ]),
+        lipoprotein_data_dm@sample_info$maxcimt,
+        method = "spearman"
+      )
+
+    test_cavi_avg <-
+      cor.test(
+        as.numeric(lipoprotein_data_dm@expression_data[i, ]),
+        as.numeric(lipoprotein_data_dm@sample_info$cavi_avg),
+        method = "spearman"
+      )
+    
+    test_plaque_present <-
+      cor.test(
+        as.numeric(lipoprotein_data_dm@expression_data[i, ]),
+        as.numeric(lipoprotein_data_dm@sample_info$plaque_present),
+        method = "spearman"
+      )
+
+    rbind(
+      data.frame(
+        variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
+        metrics = "pwv",
+        cor = test_pwv$estimate,
+        p_value = test_pwv$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
+        metrics = "FMD",
+        cor = test_FMD$estimate,
+        p_value = test_FMD$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
+        metrics = "avgcimt",
+        cor = test_avgcimt$estimate,
+        p_value = test_avgcimt$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
+        metrics = "maxcimt",
+        cor = test_maxcimt$estimate,
+        p_value = test_maxcimt$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
+        metrics = "cavi_avg",
+        cor = test_cavi_avg$estimate,
+        p_value = test_cavi_avg$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_dm@variable_info$variable_id[i],
+        metrics = "plaque_present",
+        cor = test_plaque_present$estimate,
+        p_value = test_plaque_present$p.value
+      )
+    )
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+library(plyr)
+lipoprotein_metrics_correlation_dm <-
+  lipoprotein_metrics_correlation_dm %>%
+  plyr::dlply(.(metrics), function(x) {
+    x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
+    x
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+
+lipoprotein_metrics_correlation_ra <-
+  1:nrow(lipoprotein_data_ra@variable_info) %>%
+  purrr::map(function(i) {
+    cat(i, " ")
+    test_pwv <-
+      cor.test(
+        as.numeric(lipoprotein_data_ra@expression_data[i, ]),
+        lipoprotein_data_ra@sample_info$pwv,
+        method = "spearman"
+      )
+
+    test_FMD <-
+      cor.test(
+        as.numeric(lipoprotein_data_ra@expression_data[i, ]),
+        lipoprotein_data_ra@sample_info$FMD,
+        method = "spearman"
+      )
+
+    test_avgcimt <-
+      cor.test(
+        as.numeric(lipoprotein_data_ra@expression_data[i, ]),
+        lipoprotein_data_ra@sample_info$avgcimt,
+        method = "spearman"
+      )
+
+    test_maxcimt <-
+      cor.test(
+        as.numeric(lipoprotein_data_ra@expression_data[i, ]),
+        lipoprotein_data_ra@sample_info$maxcimt,
+        method = "spearman"
+      )
+
+    test_cavi_avg <-
+      cor.test(
+        as.numeric(lipoprotein_data_ra@expression_data[i, ]),
+        as.numeric(lipoprotein_data_ra@sample_info$cavi_avg),
+        method = "spearman"
+      )
+    
+    test_plaque_present <-
+      cor.test(
+        as.numeric(lipoprotein_data_ra@expression_data[i, ]),
+        as.numeric(lipoprotein_data_ra@sample_info$plaque_present),
+        method = "spearman"
+      )
+
+    rbind(
+      data.frame(
+        variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
+        metrics = "pwv",
+        cor = test_pwv$estimate,
+        p_value = test_pwv$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
+        metrics = "FMD",
+        cor = test_FMD$estimate,
+        p_value = test_FMD$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
+        metrics = "avgcimt",
+        cor = test_avgcimt$estimate,
+        p_value = test_avgcimt$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
+        metrics = "maxcimt",
+        cor = test_maxcimt$estimate,
+        p_value = test_maxcimt$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
+        metrics = "cavi_avg",
+        cor = test_cavi_avg$estimate,
+        p_value = test_cavi_avg$p.value
+      ),
+      data.frame(
+        variable_id = lipoprotein_data_ra@variable_info$variable_id[i],
+        metrics = "plaque_present",
+        cor = test_plaque_present$estimate,
+        p_value = test_plaque_present$p.value
+      )
+    )
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+library(plyr)
+lipoprotein_metrics_correlation_ra <-
+  lipoprotein_metrics_correlation_ra %>%
+  plyr::dlply(.(metrics), function(x) {
+    x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
+    x
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+sum(lipoprotein_metrics_correlation_dm$p_value_adjust < 0.05)
+sum(lipoprotein_metrics_correlation_ra$p_value_adjust < 0.05)
+
+
+max(lipoprotein_metrics_correlation_dm$cor)
+max(lipoprotein_metrics_correlation_ra$cor)
+
+library(openxlsx)
+
+openxlsx::write.xlsx(
+  lipoprotein_metrics_correlation_dm %>% dplyr::filter(p_value < 0.05) %>%
+    dplyr::left_join(variable_info[,c("variable_id", "full_name")],
+                     by = "variable_id"),
+  file = "lipoprotein_metrics_correlation_dm.xlsx",
+  rowNames = FALSE
+)
+
+openxlsx::write.xlsx(
+  lipoprotein_metrics_correlation_ra %>% dplyr::filter(p_value < 0.05) %>%
+    dplyr::left_join(variable_info[,c("variable_id", "full_name")],
+                     by = "variable_id"),
+  file = "lipoprotein_metrics_correlation_ra.xlsx",
+  rowNames = FALSE)
+
+
+save(lipoprotein_metrics_correlation_dm, file = "lipoprotein_metrics_correlation_dm.rda", compress = "xz")
+save(lipoprotein_metrics_correlation_ra, file = "lipoprotein_metrics_correlation_ra.rda", compress = "xz")
 
 
 load("lipoprotein_metrics_correlation_dm.rda")
@@ -355,3 +381,4 @@ for (i in all_index) {
     height = 4
   )
 }
+

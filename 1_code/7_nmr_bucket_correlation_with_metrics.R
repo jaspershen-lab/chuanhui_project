@@ -35,209 +35,235 @@ nmr_data_ra <-
   dplyr::filter(disease == "RA")
 
 
-# metabolite_metrics_correlation_dm <-
-#   1:nrow(nmr_data_dm@variable_info) %>%
-#   purrr::map(function(i) {
-#     cat(i, " ")
-#     test_pwv <-
-#       cor.test(
-#         as.numeric(nmr_data_dm@expression_data[i, ]),
-#         nmr_data_dm@sample_info$pwv,
-#         method = "spearman"
-#       )
-#
-#     test_FMD <-
-#       cor.test(
-#         as.numeric(nmr_data_dm@expression_data[i, ]),
-#         nmr_data_dm@sample_info$FMD,
-#         method = "spearman"
-#       )
-#
-#     test_avgcimt <-
-#       cor.test(
-#         as.numeric(nmr_data_dm@expression_data[i, ]),
-#         nmr_data_dm@sample_info$avgcimt,
-#         method = "spearman"
-#       )
-#
-#     test_maxcimt <-
-#       cor.test(
-#         as.numeric(nmr_data_dm@expression_data[i, ]),
-#         nmr_data_dm@sample_info$maxcimt,
-#         method = "spearman"
-#       )
-#
-#     test_cavi_avg <-
-#       cor.test(
-#         as.numeric(nmr_data_dm@expression_data[i, ]),
-#         as.numeric(nmr_data_dm@sample_info$cavi_avg),
-#         method = "spearman"
-#       )
-#
-#     rbind(
-#       data.frame(
-#         variable_id = nmr_data_dm@variable_info$variable_id[i],
-#         metrics = "pwv",
-#         cor = test_pwv$estimate,
-#         p_value = test_pwv$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_dm@variable_info$variable_id[i],
-#         metrics = "FMD",
-#         cor = test_FMD$estimate,
-#         p_value = test_FMD$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_dm@variable_info$variable_id[i],
-#         metrics = "avgcimt",
-#         cor = test_avgcimt$estimate,
-#         p_value = test_avgcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_dm@variable_info$variable_id[i],
-#         metrics = "maxcimt",
-#         cor = test_maxcimt$estimate,
-#         p_value = test_maxcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_dm@variable_info$variable_id[i],
-#         metrics = "cavi_avg",
-#         cor = test_cavi_avg$estimate,
-#         p_value = test_cavi_avg$p.value
-#       )
-#     )
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# metabolite_metrics_correlation_dm$cor[is.na(metabolite_metrics_correlation_dm$cor)] <- 0
-# metabolite_metrics_correlation_dm$p_value[is.na(metabolite_metrics_correlation_dm$p_value)] <- 1
-#
-# library(plyr)
-#
-# metabolite_metrics_correlation_dm <-
-#   metabolite_metrics_correlation_dm %>%
-#   plyr::dlply(.(metrics), function(x) {
-#     x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
-#     x
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# metabolite_metrics_correlation_ra <-
-#   1:nrow(nmr_data_ra@variable_info) %>%
-#   purrr::map(function(i) {
-#     cat(i, " ")
-#     test_pwv <-
-#       cor.test(
-#         as.numeric(nmr_data_ra@expression_data[i, ]),
-#         nmr_data_ra@sample_info$pwv,
-#         method = "spearman"
-#       )
-#
-#     test_FMD <-
-#       cor.test(
-#         as.numeric(nmr_data_ra@expression_data[i, ]),
-#         nmr_data_ra@sample_info$FMD,
-#         method = "spearman"
-#       )
-#
-#     test_avgcimt <-
-#       cor.test(
-#         as.numeric(nmr_data_ra@expression_data[i, ]),
-#         nmr_data_ra@sample_info$avgcimt,
-#         method = "spearman"
-#       )
-#
-#     test_maxcimt <-
-#       cor.test(
-#         as.numeric(nmr_data_ra@expression_data[i, ]),
-#         nmr_data_ra@sample_info$maxcimt,
-#         method = "spearman"
-#       )
-#
-#     test_cavi_avg <-
-#       cor.test(
-#         as.numeric(nmr_data_ra@expression_data[i, ]),
-#         as.numeric(nmr_data_ra@sample_info$cavi_avg),
-#         method = "spearman"
-#       )
-#
-#     rbind(
-#       data.frame(
-#         variable_id = nmr_data_ra@variable_info$variable_id[i],
-#         metrics = "pwv",
-#         cor = test_pwv$estimate,
-#         p_value = test_pwv$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_ra@variable_info$variable_id[i],
-#         metrics = "FMD",
-#         cor = test_FMD$estimate,
-#         p_value = test_FMD$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_ra@variable_info$variable_id[i],
-#         metrics = "avgcimt",
-#         cor = test_avgcimt$estimate,
-#         p_value = test_avgcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_ra@variable_info$variable_id[i],
-#         metrics = "maxcimt",
-#         cor = test_maxcimt$estimate,
-#         p_value = test_maxcimt$p.value
-#       ),
-#       data.frame(
-#         variable_id = nmr_data_ra@variable_info$variable_id[i],
-#         metrics = "cavi_avg",
-#         cor = test_cavi_avg$estimate,
-#         p_value = test_cavi_avg$p.value
-#       )
-#     )
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# metabolite_metrics_correlation_ra$cor[is.na(metabolite_metrics_correlation_ra$cor)] <- 0
-# metabolite_metrics_correlation_ra$p_value[is.na(metabolite_metrics_correlation_ra$p_value)] <- 1
-#
-# library(plyr)
-# metabolite_metrics_correlation_ra <-
-#   metabolite_metrics_correlation_ra %>%
-#   plyr::dlply(.(metrics), function(x) {
-#     x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
-#     x
-#   }) %>%
-#   do.call(rbind, .) %>%
-#   as.data.frame()
-#
-# sum(metabolite_metrics_correlation_dm$p_value_adjust < 0.05)
-# sum(metabolite_metrics_correlation_ra$p_value_adjust < 0.05)
-#
-# max(metabolite_metrics_correlation_dm$cor)
-# max(metabolite_metrics_correlation_ra$cor)
-#
-#
-# library(openxlsx)
-#
-# openxlsx::write.xlsx(
-#   metabolite_metrics_correlation_dm,
-#   file = "metabolite_metrics_correlation_dm.xlsx",
-#   rowNames = FALSE
-# )
-#
-# openxlsx::write.xlsx(
-#   metabolite_metrics_correlation_ra,
-#   file = "metabolite_metrics_correlation_ra.xlsx",
-#   rowNames = FALSE)
-#
-# save(metabolite_metrics_correlation_dm,
-#      file = "metabolite_metrics_correlation_dm.rda",
-#      compress = "xz")
-# save(metabolite_metrics_correlation_ra,
-#      file = "metabolite_metrics_correlation_ra.rda",
-#      compress = "xz")
+metabolite_metrics_correlation_dm <-
+  1:nrow(nmr_data_dm@variable_info) %>%
+  purrr::map(function(i) {
+    cat(i, " ")
+    test_pwv <-
+      cor.test(
+        as.numeric(nmr_data_dm@expression_data[i, ]),
+        nmr_data_dm@sample_info$pwv,
+        method = "spearman"
+      )
+
+    test_FMD <-
+      cor.test(
+        as.numeric(nmr_data_dm@expression_data[i, ]),
+        nmr_data_dm@sample_info$FMD,
+        method = "spearman"
+      )
+
+    test_avgcimt <-
+      cor.test(
+        as.numeric(nmr_data_dm@expression_data[i, ]),
+        nmr_data_dm@sample_info$avgcimt,
+        method = "spearman"
+      )
+
+    test_maxcimt <-
+      cor.test(
+        as.numeric(nmr_data_dm@expression_data[i, ]),
+        nmr_data_dm@sample_info$maxcimt,
+        method = "spearman"
+      )
+
+    test_cavi_avg <-
+      cor.test(
+        as.numeric(nmr_data_dm@expression_data[i, ]),
+        as.numeric(nmr_data_dm@sample_info$cavi_avg),
+        method = "spearman"
+      )
+
+    test_plaque_present <-
+      cor.test(
+        as.numeric(nmr_data_dm@expression_data[i, ]),
+        as.numeric(nmr_data_dm@sample_info$plaque_present),
+        method = "spearman"
+      )
+    
+    rbind(
+      data.frame(
+        variable_id = nmr_data_dm@variable_info$variable_id[i],
+        metrics = "pwv",
+        cor = test_pwv$estimate,
+        p_value = test_pwv$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_dm@variable_info$variable_id[i],
+        metrics = "FMD",
+        cor = test_FMD$estimate,
+        p_value = test_FMD$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_dm@variable_info$variable_id[i],
+        metrics = "avgcimt",
+        cor = test_avgcimt$estimate,
+        p_value = test_avgcimt$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_dm@variable_info$variable_id[i],
+        metrics = "maxcimt",
+        cor = test_maxcimt$estimate,
+        p_value = test_maxcimt$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_dm@variable_info$variable_id[i],
+        metrics = "cavi_avg",
+        cor = test_cavi_avg$estimate,
+        p_value = test_cavi_avg$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_dm@variable_info$variable_id[i],
+        metrics = "plaque_present",
+        cor = test_plaque_present$estimate,
+        p_value = test_plaque_present$p.value
+      )
+    )
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+metabolite_metrics_correlation_dm$cor[is.na(metabolite_metrics_correlation_dm$cor)] <- 0
+metabolite_metrics_correlation_dm$p_value[is.na(metabolite_metrics_correlation_dm$p_value)] <- 1
+
+library(plyr)
+
+metabolite_metrics_correlation_dm <-
+  metabolite_metrics_correlation_dm %>%
+  plyr::dlply(.(metrics), function(x) {
+    x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
+    x
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+metabolite_metrics_correlation_ra <-
+  1:nrow(nmr_data_ra@variable_info) %>%
+  purrr::map(function(i) {
+    cat(i, " ")
+    test_pwv <-
+      cor.test(
+        as.numeric(nmr_data_ra@expression_data[i, ]),
+        nmr_data_ra@sample_info$pwv,
+        method = "spearman"
+      )
+
+    test_FMD <-
+      cor.test(
+        as.numeric(nmr_data_ra@expression_data[i, ]),
+        nmr_data_ra@sample_info$FMD,
+        method = "spearman"
+      )
+
+    test_avgcimt <-
+      cor.test(
+        as.numeric(nmr_data_ra@expression_data[i, ]),
+        nmr_data_ra@sample_info$avgcimt,
+        method = "spearman"
+      )
+
+    test_maxcimt <-
+      cor.test(
+        as.numeric(nmr_data_ra@expression_data[i, ]),
+        nmr_data_ra@sample_info$maxcimt,
+        method = "spearman"
+      )
+
+    test_cavi_avg <-
+      cor.test(
+        as.numeric(nmr_data_ra@expression_data[i, ]),
+        as.numeric(nmr_data_ra@sample_info$cavi_avg),
+        method = "spearman"
+      )
+
+    test_plaque_present <-
+      cor.test(
+        as.numeric(nmr_data_ra@expression_data[i, ]),
+        as.numeric(nmr_data_ra@sample_info$plaque_present),
+        method = "spearman"
+      )
+    
+    rbind(
+      data.frame(
+        variable_id = nmr_data_ra@variable_info$variable_id[i],
+        metrics = "pwv",
+        cor = test_pwv$estimate,
+        p_value = test_pwv$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_ra@variable_info$variable_id[i],
+        metrics = "FMD",
+        cor = test_FMD$estimate,
+        p_value = test_FMD$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_ra@variable_info$variable_id[i],
+        metrics = "avgcimt",
+        cor = test_avgcimt$estimate,
+        p_value = test_avgcimt$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_ra@variable_info$variable_id[i],
+        metrics = "maxcimt",
+        cor = test_maxcimt$estimate,
+        p_value = test_maxcimt$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_ra@variable_info$variable_id[i],
+        metrics = "cavi_avg",
+        cor = test_cavi_avg$estimate,
+        p_value = test_cavi_avg$p.value
+      ),
+      data.frame(
+        variable_id = nmr_data_ra@variable_info$variable_id[i],
+        metrics = "plaque_present",
+        cor = test_plaque_present$estimate,
+        p_value = test_plaque_present$p.value
+      )
+    )
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+metabolite_metrics_correlation_ra$cor[is.na(metabolite_metrics_correlation_ra$cor)] <- 0
+metabolite_metrics_correlation_ra$p_value[is.na(metabolite_metrics_correlation_ra$p_value)] <- 1
+
+library(plyr)
+metabolite_metrics_correlation_ra <-
+  metabolite_metrics_correlation_ra %>%
+  plyr::dlply(.(metrics), function(x) {
+    x$p_value_adjust <- p.adjust(x$p_value, method = "fdr")
+    x
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+sum(metabolite_metrics_correlation_dm$p_value_adjust < 0.05)
+sum(metabolite_metrics_correlation_ra$p_value_adjust < 0.05)
+
+max(metabolite_metrics_correlation_dm$cor)
+max(metabolite_metrics_correlation_ra$cor)
+
+
+library(openxlsx)
+
+openxlsx::write.xlsx(
+  metabolite_metrics_correlation_dm,
+  file = "metabolite_metrics_correlation_dm.xlsx",
+  rowNames = FALSE
+)
+
+openxlsx::write.xlsx(
+  metabolite_metrics_correlation_ra,
+  file = "metabolite_metrics_correlation_ra.xlsx",
+  rowNames = FALSE)
+
+save(metabolite_metrics_correlation_dm,
+     file = "metabolite_metrics_correlation_dm.rda",
+     compress = "xz")
+save(metabolite_metrics_correlation_ra,
+     file = "metabolite_metrics_correlation_ra.rda",
+     compress = "xz")
 
 load("metabolite_metrics_correlation_dm.rda")
 load("metabolite_metrics_correlation_ra.rda")

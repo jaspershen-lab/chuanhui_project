@@ -49,4 +49,11 @@ nmr_data <-
     sample_info = sample_info
   )
 
+nmr_data@variable_info$variable_id[nmr_data@variable_info$variable_id == "b-glucose"] <- "beta-glucose"
+nmr_data@variable_info$variable_id[nmr_data@variable_info$variable_id == "α-glucose"] <- "alpha-glucose"
+
+rownames(nmr_data@expression_data) <-
+  nmr_data@variable_info$variable_id
+
 save(nmr_data, file = "nmr_data.rda", compress = "xz")
+

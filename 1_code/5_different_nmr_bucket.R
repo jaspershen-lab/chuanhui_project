@@ -10,6 +10,11 @@ setwd("3_data_analysis/5_different_nmr_bucket")
 
 library(tidymass)
 
+nmr_data <-
+nmr_data %>% 
+  activate_mass_dataset(what = "variable_info") %>% 
+  dplyr::filter(variable_id != "un1" & variable_id != "un2")
+
 ####PCA use all metabolite variables
 pca_object <-
   nmr_data %>%
