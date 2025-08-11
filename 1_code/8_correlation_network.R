@@ -4,7 +4,7 @@ rm(list = ls())
 source('1_code/100_tools.R')
 
 load("3_data_analysis/4_different_lipoprotein/lipoprotein_data.rda")
-load("3_data_analysis/5_different_metabolites/metabolite_data.rda")
+load("3_data_analysis/5_different_nmr_bucket/nmr_data.rda")
 
 dir.create("3_data_analysis/8_correlation_network", showWarnings = FALSE)
 setwd("3_data_analysis/8_correlation_network")
@@ -16,24 +16,28 @@ lipoprotein_data <-
   activate_mass_dataset(what = "variable_info") %>%
   dplyr::mutate(class = "lipoprotein")
 
-metabolite_data <-
-  metabolite_data %>%
+nmr_data <-
+  nmr_data %>%
   activate_mass_dataset(what = "variable_info") %>%
   dplyr::mutate(class = "metabolite")
 
 remove_idx <-
-  apply(metabolite_data@expression_data, 1, function(x) {
+  apply(nmr_data@expression_data, 1, function(x) {
     all(as.numeric(x) == 0)
   }) %>%
   which()
 
 if (length(remove_idx) > 0) {
-  metabolite_data <-
-    metabolite_data[-remove_idx, ]
+  nmr_data <-
+    nmr_data[-remove_idx, ]
 }
 
+nmr_data <-
+  nmr_data %>%
+  log(10)
+
 data <-
-  rbind(lipoprotein_data, metabolite_data)
+  rbind(lipoprotein_data, nmr_data[, colnames(lipoprotein_data)])
 
 cor_data <-
   massstat::cor_mass_dataset(data)
@@ -126,7 +130,7 @@ plot <-
   ) +
   theme_graph() +
   geom_node_text(aes(label = full_name), repel = TRUE, size = 3)
-
+plot
 library(extrafont)
 extrafont::loadfonts()
 ggsave(plot,
@@ -136,19 +140,16 @@ ggsave(plot,
 
 
 ###detect module
-
 library(igraph)
 cluster_data <-
-cluster_louvain(graph = graph_data, weights = abs(E(graph_data)$correlation))
+  cluster_louvain(graph = graph_data, weights = abs(E(graph_data)$correlation))
 
-module_info <-  
-data.frame(
-  variable_id = V(graph_data)$variable_id,
-  module = cluster_data$membership
-) %>%
+module_info <-
+  data.frame(variable_id = V(graph_data)$variable_id,
+             module = cluster_data$membership) %>%
   dplyr::mutate(module = paste0("module_", module)) %>%
-  dplyr::select(variable_id, module) %>% 
-  dplyr::left_join(node_data, by = "variable_id") %>% 
+  dplyr::select(variable_id, module) %>%
+  dplyr::left_join(node_data, by = "variable_id") %>%
   dplyr::arrange(module, fc)
 
 
@@ -167,24 +168,27 @@ module_info <-
 
 #####module fc distribution
 plot <-
-module_info %>% 
+  module_info %>%
   ggplot(aes(x = module, y = log(fc, 2))) +
   geom_hline(yintercept = 0, color = "red") +
   geom_boxplot(aes(color = module), show.legend = TRUE) +
-  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), 
-               vjust = -0.8, color = "black", size = 5) +
-  geom_jitter(aes(fill = module,
-                  size = -log(p_value, 10)), 
+  stat_summary(
+    fun = mean,
+    geom = "text",
+    aes(label = round(..y.., 2)),
+    vjust = -0.8,
+    color = "black",
+    size = 5
+  ) +
+  geom_jitter(aes(fill = module, size = -log(p_value, 10)),
               shape = 21,
               show.legend = TRUE) +
   theme_bw() +
-  theme(panel.grid.minor = element_blank(),
-        legend.position = "bottom") +
+  theme(panel.grid.minor = element_blank(), legend.position = "bottom") +
   labs(x = "", y = "log2FC (RA/DM)") +
   ggsci::scale_color_bmj() +
   ggsci::scale_fill_bmj() +
-  scale_size_continuous(range = c(1, 5), 
-                        name = "-log10(p-value)")
+  scale_size_continuous(range = c(1, 5), name = "-log10(p-value)")
 plot
 ggsave(plot,
        filename = "module_fc_distribution.pdf",
