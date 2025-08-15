@@ -13,7 +13,7 @@ library(tidymass)
 nmr_data <-
 nmr_data %>% 
   activate_mass_dataset(what = "variable_info") %>% 
-  dplyr::filter(variable_id != "un1" & variable_id != "un2")
+  dplyr::filter(variable_id != "un1" & variable_id != "un2" & variable_id != "Ca-EDTA2-" & variable_id != "Mg-EDTA2-")
 
 ####PCA use all metabolite variables
 pca_object <-
